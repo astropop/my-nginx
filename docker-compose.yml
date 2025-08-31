@@ -24,6 +24,7 @@ services:
       - certs:/etc/nginx/certs
       - vhostd:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
+      - acme:/etc/acme.sh
     networks:
       - shared
     restart: unless-stopped
@@ -32,6 +33,7 @@ volumes:
   certs:
   vhostd:
   html:
+  acme:
 
 networks:
   shared:
