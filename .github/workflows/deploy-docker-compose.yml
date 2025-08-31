@@ -1,0 +1,42 @@
+name: "Local-Build and deploy nginx to server"
+
+on:
+  push:
+    branches:
+      - feature/final
+
+jobs:
+  deploy:
+    name: Deploy to server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: SSH and deploy
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.NEW_HOST_LOCAL }} # Địa chỉ của server
+          username: ${{ secrets.NEW_USERNAME_LOCAL }} # Username để login vào server
+          key: ${{ secrets.NEW_SSH_KEY_PRIVATE_LOCAL }} # Private key để login vào server
+
+          script: |
+            set -e
+
+            cd ${{ secrets.NEW_PATH_PROJECT_LOCAL }} 
+
+            if [ -d my-nginx ]; then
+              cd my-nginx
+              git fetch 
+              git pull
+            else
+              git clone -b feature/final https://github.com/astropop/my-nginx.git
+              cd my-nginx
+            fi
+
+            docker compose build
+            docker compose up -d
