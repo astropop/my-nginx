@@ -22,7 +22,7 @@ jobs:
         with:
           host: ${{ secrets.ONLINE_HOST }} # Địa chỉ của server
           username: ${{ secrets.ONLINE_USERNAME }} # Username để login vào server
-          key: ${{ secrets.ONLINE_SSH_KEY_PRIVATE }} # Private key để login vào server
+          key: ${{ secrets.ONLINE_SSH_PRIVATE_KEY }} # Private key để login vào server
 
           script: |
             set -e
