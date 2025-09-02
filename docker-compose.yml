@@ -15,15 +15,13 @@ services:
 
   my-acme-companion:
     image: nginxproxy/acme-companion
-    depends_on:
+    volumes_from:
       - my-nginx-proxy
     environment:
       - DEFAULT_EMAIL=spinatp@gmail.com  # email gets errors
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - certs:/etc/nginx/certs
-      - vhostd:/etc/nginx/vhost.d
-      - html:/usr/share/nginx/html
+      - acme:/etc/acme.sh
     networks:
       - shared
     restart: unless-stopped
@@ -32,6 +30,7 @@ volumes:
   certs:
   vhostd:
   html:
+  acme:
 
 networks:
   shared:
