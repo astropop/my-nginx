@@ -1,4 +1,4 @@
-name: "Local-Build and deploy nginx to server"
+name: "Build and deploy nginx to server"
 
 on:
   push:
