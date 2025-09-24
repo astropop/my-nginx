@@ -1,6 +1,7 @@
 services:
   my-nginx-proxy:
-    image: jwilder/nginx-proxy:alpine
+    image: jwilder/nginx-proxy:alpine # keep this setting for automatically refreshing docker
+    container_name: my-nginx-proxy # keep this setting for automatically refreshing docker
     ports:
       - "80:80"
       - "443:443"
@@ -14,7 +15,8 @@ services:
     restart: unless-stopped
 
   my-acme-companion:
-    image: nginxproxy/acme-companion
+    image: nginxproxy/acme-companion # keep this setting for automatically refreshing docker
+    container_name: my-acme-companion # keep this setting for automatically refreshing docker
     volumes_from:
       - my-nginx-proxy
     environment:
