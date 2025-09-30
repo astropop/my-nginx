@@ -5,6 +5,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    user: 1000:1000
     environment:
       - NODE_ENV=production
       - VIRTUAL_HOST=vnpsc.com,www.vnpsc.com
@@ -21,6 +22,7 @@ services:
   my-acme-companion:
     image: nginxproxy/acme-companion # keep this setting for automatically refreshing docker
     container_name: my-acme-companion # keep this setting for automatically refreshing docker
+    user: 1000:1000
     volumes_from:
       - my-nginx-proxy
     environment:
