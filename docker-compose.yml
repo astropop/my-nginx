@@ -9,6 +9,8 @@ services:
       - NODE_ENV=production
       - VIRTUAL_HOST=vnpsc.com,www.vnpsc.com
       - VIRTUAL_PATH=/
+      - LETSENCRYPT_HOST=vnpsc.com,www.vnpsc.com
+      - LETSENCRYPT_EMAIL=spinatp@gmail.com
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - certs:/etc/nginx/certs
@@ -24,6 +26,11 @@ services:
     volumes_from:
       - my-nginx-proxy
     environment:
+      - NODE_ENV=production
+      - VIRTUAL_HOST=vnpsc.com,www.vnpsc.com
+      - VIRTUAL_PATH=/
+      - LETSENCRYPT_HOST=vnpsc.com,www.vnpsc.com
+      - LETSENCRYPT_EMAIL=spinatp@gmail.com
       - DEFAULT_EMAIL=spinatp@gmail.com # email gets errors
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
