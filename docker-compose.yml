@@ -5,10 +5,11 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    # environment:
-    #   - NODE_ENV=production
-    #   - VIRTUAL_HOST=vnpsc.com,www.vnpsc.com
-    #   - VIRTUAL_PATH=/
+    user: 1000:1000
+    environment:
+      - NODE_ENV=production
+      - VIRTUAL_HOST=vnpsc.com,www.vnpsc.com
+      - VIRTUAL_PATH=/
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - certs:/etc/nginx/certs
@@ -21,10 +22,11 @@ services:
   my-acme-companion:
     image: nginxproxy/acme-companion # keep this setting for automatically refreshing docker
     container_name: my-acme-companion # keep this setting for automatically refreshing docker
+    user: 1000:1000
     volumes_from:
       - my-nginx-proxy
     environment:
-      - DEFAULT_EMAIL=spinatp@gmail.com  # email gets errors
+      - DEFAULT_EMAIL=spinatp@gmail.com # email gets errors
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - acme:/etc/acme.sh
