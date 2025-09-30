@@ -41,7 +41,7 @@ jobs:
             if [ -d my-nginx ]; then
               cd my-nginx
               git fetch 
-              git pull
+              git pull origin feature/final
             else
               git clone -b feature/final https://github.com/astropop/my-nginx.git
               cd my-nginx
