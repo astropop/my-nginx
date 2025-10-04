@@ -5,16 +5,10 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    environment:
-      - NODE_ENV=production
-      - VIRTUAL_HOST=vnpsc.com,www.vnpsc.com
-      - VIRTUAL_PATH=/
-      - LETSENCRYPT_HOST=vnpsc.com,www.vnpsc.com
-      - LETSENCRYPT_EMAIL=spinatp@gmail.com
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - certs:/etc/nginx/certs
-      - ./nginx/vhost.d:/etc/nginx/vhost.d # setup location here
+      - vhost:/etc/nginx/vhost.d # setup location here
       - html:/usr/share/nginx/html
     networks:
       - shared
@@ -27,10 +21,6 @@ services:
       - my-nginx-proxy
     environment:
       - NODE_ENV=production
-      - VIRTUAL_HOST=vnpsc.com,www.vnpsc.com
-      - VIRTUAL_PATH=/
-      - LETSENCRYPT_HOST=vnpsc.com,www.vnpsc.com
-      - LETSENCRYPT_EMAIL=spinatp@gmail.com
       - DEFAULT_EMAIL=spinatp@gmail.com # email gets errors
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -43,6 +33,7 @@ volumes:
   certs:
   html:
   acme:
+  vhost:
 
 networks:
   shared:
