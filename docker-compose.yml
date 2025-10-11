@@ -5,11 +5,10 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "8081:8081"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - certs:/etc/nginx/certs
-      - ./nginx/vhost.d:/etc/nginx/vhost.d # setup location here
+      - vhost:/etc/nginx/vhost.d # setup location here
       - html:/usr/share/nginx/html
     networks:
       - shared
