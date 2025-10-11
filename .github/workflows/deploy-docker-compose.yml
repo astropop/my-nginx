@@ -43,7 +43,7 @@ jobs:
               git fetch 
               git pull origin feature/final
             else
-              git clone -b feature/final https://github.com/astropop/my-nginx.git
+              git clone -b feature/final git@github.com:astropop/my-nginx.git
               cd my-nginx
             fi
 
