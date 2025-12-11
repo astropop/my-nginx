@@ -1,0 +1,30 @@
+# Custom nginx configuration for port 8081 routing to phpMyAdmin
+# Save this file as: nginx-custom.conf in your nginx-proxy project folder
+
+server {
+    listen 8081;
+    server_name _;  # Accept requests from any domain/IP
+
+    # Increase upload limit for phpMyAdmin
+    client_max_body_size 100M;
+
+    location / {
+        proxy_pass http://my-phpmyadmin:80;
+        proxy_set_header Host $host:8081;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Port 8081;
+        
+        # WebSocket support (if needed)
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        
+        # Timeouts
+        proxy_connect_timeout 600;
+        proxy_send_timeout 600;
+        proxy_read_timeout 600;
+        send_timeout 600;
+    }
+}

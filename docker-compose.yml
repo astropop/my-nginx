@@ -1,24 +1,27 @@
 services:
   my-nginx-proxy:
-    image: jwilder/nginx-proxy:alpine
+    image: jwilder/nginx-proxy:alpine # keep this setting for automatically refreshing docker
+    container_name: my-nginx-proxy # keep this setting for automatically refreshing docker
     ports:
       - "80:80"
       - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - certs:/etc/nginx/certs
-      - vhostd:/etc/nginx/vhost.d
+      - vhost:/etc/nginx/vhost.d # setup location here
       - html:/usr/share/nginx/html
     networks:
       - shared
     restart: unless-stopped
 
   my-acme-companion:
-    image: nginxproxy/acme-companion
+    image: nginxproxy/acme-companion # keep this setting for automatically refreshing docker
+    container_name: my-acme-companion # keep this setting for automatically refreshing docker
     volumes_from:
       - my-nginx-proxy
     environment:
-      - DEFAULT_EMAIL=spinatp@gmail.com  # email gets errors
+      - NODE_ENV=production
+      - DEFAULT_EMAIL=spinatp@gmail.com # email gets errors
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - acme:/etc/acme.sh
@@ -28,9 +31,9 @@ services:
 
 volumes:
   certs:
-  vhostd:
   html:
   acme:
+  vhost:
 
 networks:
   shared:

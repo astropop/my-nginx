@@ -1,4 +1,4 @@
-name: "Local-Build and deploy nginx to server"
+name: "Build and deploy nginx to server"
 
 on:
   push:
@@ -20,19 +20,28 @@ jobs:
       - name: SSH and deploy
         uses: appleboy/ssh-action@v1.2.2
         with:
-          host: ${{ secrets.ONLINE_HOST }} # Địa chỉ của server
-          username: ${{ secrets.ONLINE_USERNAME }} # Username để login vào server
-          key: ${{ secrets.ONLINE_SSH_PRIVATE_KEY }} # Private key để login vào server
+          host: ${{ secrets.ONLINE_HOST }} # ip of server
+          username: ${{ secrets.ONLINE_USERNAME }} # Username to login to server
+          key: ${{ secrets.ONLINE_SSH_PRIVATE_KEY }} # Private key to login to server
 
           script: |
             set -e
+
+            docker container stop my-acme-companion || true
+            docker container stop my-nginx-proxy || true
+
+            docker container remove my-acme-companion || true
+            docker container remove my-nginx-proxy || true
+
+            docker image remove nginxproxy/acme-companion || true
+            docker image remove jwilder/nginx-proxy:alpine || true
 
             cd ${{ secrets.ONLINE_PATH_PROJECT }} 
 
             if [ -d my-nginx ]; then
               cd my-nginx
               git fetch 
-              git pull
+              git pull origin feature/final
             else
               git clone -b feature/final https://github.com/astropop/my-nginx.git
               cd my-nginx
